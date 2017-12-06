@@ -147,7 +147,7 @@
                                        <p style="font-size:20px"><%= multi[i][0]%> === <strong><%= multi[i][1]%></strong></p>
                                     <% } %>
                                 <% } else{ %>
-                                    <p>No Multi-letter Homoglyphs found</p>
+                                    <p style="color:#D3D3D3">No Multi-letter Homoglyphs found</p>
                                 <% } %>
 
                             </div>
@@ -164,12 +164,39 @@
                             </div>
                         </div>
                         <hr>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <p><strong>Scripts</strong></p>
+                                <% if(scriptList.length){ %>
+                                    <% for(var i=0; i < scriptList.length; i++) { %>
+                                       <p><%= scriptList[i] %></p>
+                                    <% } %>
+                                <% } else{ %>
+                                    <p style="color:#D3D3D3">No Scripts Used</p>
+                                <% } %>
+
+                            </div>
+                            <div class="col-lg-6">
+                                <p><strong>Risky TLDs</strong></p>
+                                <% if(tlds.length){ %>
+                                    <div style="font-size:14px">
+                                        <% for(var i=0; i < tlds.length; i++) { %>
+                                           <p><%= tlds[i] %></p>
+                                        <% } %>
+                                    </div>
+                                <% } else{ %>
+                                    <p style="color:#D3D3D3">--------</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    <hr>
                     <% } %>
                     <table>
                         <tr>
                             <td><strong>ASCII</strong></td>
                             <td><strong>Punycode</strong></td>
                             <td><strong>Unicode</strong></td>
+                            <td><strong>Status</strong></td>
                         </tr>
                     <% if(data.length) {
                             for(var i = 0; i < data.length; i++) { %>
@@ -177,6 +204,8 @@
                                     <td><%= data[i]['ASCII'] %></td>
                                     <td><%= data[i]['Punycode'] %></td>
                                     <td><a href="<%= data[i]['link'] %>" target="_blank"><%= data[i]['Unicode'] %></a></td>
+                                    <td id="<%= data[i]['ASCII'] %>"><input type="button" class="search-button-small" value="Check" onClick="checkHomographDb('<%= data[i]['ASCII'] %>')"</td>
+
                                 </tr>
                     <% }
                     } else { %>
@@ -226,9 +255,28 @@
               "data": $("#search-term").serialize(),
             }
             $.ajax(settings).done(function (res) {
-                window.location.href = 'api/search/'+domain + '/'+radio;
+                window.location.href = 'api/search/' + domain + '/' + radio;
                 return false;
             });
+        }
+
+        function checkHomographDb(ascii) {
+            val = document.getElementById(ascii);
+            while (val.firstChild) {
+                val.removeChild(val.firstChild);
+            }
+            setTimeout(function() {
+                var img = document.createElement('img');
+                var rand = Math.floor((Math.random() * 1000000) + 1);
+                if(rand%2 == 0){
+                    img.src = "/../img/open.svg";
+                    val.appendChild(img);
+                }else {
+                    img.src = "/../img/close.svg";
+                    val.appendChild(img);
+                }
+                return;
+            }, 1000);
         }
     </script>
 

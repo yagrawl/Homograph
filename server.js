@@ -51,6 +51,9 @@ search.get(function (req, res, next){
     var counts = {};
     var count_1 = 0, count_2 = 0, count_3 = 0;
     var multi = [];
+    var scriptList = [];
+    var tlds = [];
+    var registered = [];
     for (let i = 0; i < domain.length; i++) {
         for (let j = 0; j < homoglyph[domain[i]].length; j++) {
             tempstr = domain.substring(0, i) + homoglyph[domain[i]][j] + domain.substring(i + 1);
@@ -135,6 +138,7 @@ search.get(function (req, res, next){
             }
         }
     }
+
     counts['three'] = count_3;
     counts['total'] = count_1 + count_2 + count_3;
 
@@ -144,9 +148,40 @@ search.get(function (req, res, next){
         }
     }
 
-    res.render('index', {data: newDomain, count: counts, multi: multi});
+    for (let i = 0; i < domain.length; i++) {
+        var tempscript = scripts[domain[i]];
+        for(let j = 0; j < tempscript.length; j++) {
+            if(scriptList.indexOf(tempscript[i]) === -1){
+                scriptList.push(tempscript[i]);
+            }
+        }
+    }
+
+    for(let i = 0; i < scriptList.length; i++){
+        if(scriptList[i] == 'CYRILLIC') {
+            tlds.push('.ru; .su; .рф; .бел; .ua;');
+            tlds.push('.укр; .bg; .rs; .срб; .cz');
+        }
+        if(scriptList[i] == 'GREEK') {
+            tlds.push('.gr; .cy; .it; .al; .tr;');
+        }
+    }
+
+    res.render('index', {data: newDomain, count: counts, multi: multi, scriptList:scriptList, tlds: tlds});
 });
 
+var search2 = router.route('/search/:domain/:radio/:ascii');
+
+search2.get(function(req,res,next){
+    ascii = req.params.ascii;
+    req.getConnection(function(err,conn){
+        if (err) return next("Cannot Connect");
+        var query = conn.query("SELECT * FROM domains WHERE ascii = ? ",[ascii],function(err,rows){
+            res.render('index', {db:rows});
+        });
+
+    });
+});
 
 var curut = router.route('/demo');
 
@@ -303,6 +338,35 @@ var multiHomoglyph = {
     'ci': 'a',
     'fi': 'A'
 };
+
+var scripts = {
+    'a': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'b': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'c': ['CYRILLIC', 'LATIN'],
+    'd': ['LATIN'],
+    'e': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'f': ['LATIN'],
+    'g': ['LATIN'],
+    'h': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'i': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'j': ['CYRILLIC', 'LATIN'],
+    'k': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'l': ['LATIN'],
+    'm': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'n': ['LATIN', 'GREEK'],
+    'o': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'p': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'q': ['LATIN'],
+    'r': ['LATIN'],
+    's': ['LATIN'],
+    't': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'u': ['LATIN'],
+    'v': ['CYRILLIC', 'LATIN'],
+    'w': ['CYRILLIC', 'LATIN'],
+    'x': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'y': ['CYRILLIC', 'GREEK', 'LATIN'],
+    'z': ['LATIN']
+}
 
 String.prototype.replaceAt=function(index, replacement) {
     return this.substr(0, index) + replacement + this.substr(index + replacement.length);
