@@ -1,0 +1,300 @@
+body {
+  padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+/* Importing all the fonts with weights */
+@font-face {
+    font-family: Proxima Nova;
+    src: url(fonts/ProximaNovaThin.otf);
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: Proxima Nova;
+    src: url(fonts/ProximaNovaAltRegular.otf);
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: Proxima Nova;
+    src: url(fonts/proxima-nova-semibold.otf);
+    font-weight: 300;
+}
+
+.navbar-text {
+    font-family: Proxima Nova;
+    font-size: 20px;
+    font-weight: 100;
+    color: white;
+}
+
+.title-text {
+    font-family: Proxima Nova;
+    font-size: 36px;
+    font-weight: 300;
+    color: white;
+}
+
+.content-text {
+    font-family: Proxima Nova;
+    font-size: 24px;
+    font-weight: 100;
+    color: white;
+}
+
+.info-text {
+    font-family: Proxima Nova;
+    font-size: 18px;
+    font-weight: 100;
+    color: white;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.searchbar-text {
+    font-family: Proxima Nova;
+    font-size: 16px;
+    font-weight: 200;
+    color: black;
+}
+
+.about-text {
+    font-family: Proxima Nova;
+    font-size: 20px;
+    font-weight: 100;
+    color: black;
+}
+
+.title-box {
+	padding-top: 100px;
+	padding-bottom: 50px;
+}
+
+.search-container {
+    margin-top: 50px;
+}
+
+.about-box {
+	margin: 100px 0px;
+}
+
+.footer-links > a {
+	color: white;
+}
+
+.search-container {
+  width: 490px;
+  display: block;
+  margin: 0 auto;
+}
+
+input.search-bar {
+  margin: 0 auto;
+  width: 92%;
+  height: 45px;
+  padding: 0 20px;
+  font-size: 1rem;
+  border: 1px solid #E7E5DF;
+  border-radius: 5px;
+  outline: none;
+}
+
+input.search-bar:focus {
+  border: 1px solid #E7E5DF;
+  transition: 0.35s ease;
+  color: #D65553;
+}
+
+input.search-bar:focus::-webkit-input-placeholder {
+  transition: opacity 0.45s ease;
+  opacity: 0;
+}
+
+input.search-bar:focus::-moz-placeholder {
+  transition: opacity 0.45s ease;
+  opacity: 0;
+}
+
+input.search-bar:focus:-ms-placeholder {
+  transition: opacity 0.45s ease;
+  opacity: 0;
+}
+
+input.search-bar-small {
+  margin: 0 auto;
+  margin-right: 5px;
+  width: 45%;
+  height: 45px;
+  padding: 0 20px;
+  font-size: 1rem;
+  border: 1px solid #D0CFCE;
+  border-radius: 5px;
+  outline: none;
+  display: inline;
+}
+
+input.search-bar-small:focus {
+  border: 1px solid #343A40;
+  transition: 0.35s ease;
+  color: #343A40;
+}
+
+input.search-bar-small:focus::-webkit-input-placeholder {
+  transition: opacity 0.45s ease;
+  opacity: 0;
+}
+
+input.search-bar-small:focus::-moz-placeholder {
+  transition: opacity 0.45s ease;
+  opacity: 0;
+}
+
+input.search-bar-small:focus:-ms-placeholder {
+  transition: opacity 0.45s ease;
+  opacity: 0;
+}
+
+
+.search-button {
+    border: 1px solid #282C34;
+    margin-top: 20px;
+    width: 200px;
+    height: 50px;
+    background-color: #282C34;
+    font-family: Proxima Nova;
+    font-size: 20px;
+    font-weight: 100;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.search-button-db {
+    border: 1px solid #282C34;
+    width: 100px;
+    height: 45px;
+    background-color: #282C34;
+    font-family: Proxima Nova;
+    font-size: 20px;
+    font-weight: 100;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.add-margin-bottom {
+    margin-bottom: 30px;
+}
+
+.add-margin-bottom-small {
+    margin-bottom: 10px;
+}
+
+.inputs {
+    float: left;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  display: none;
+}
+input[type="radio"] + label,
+input[type="checkbox"] + label {
+  position: relative;
+  display: inline-block;
+  padding-left: 1.5em;
+  margin-right: 2em;
+  cursor: pointer;
+  line-height: 1em;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+input[type="radio"] + label:before,
+input[type="checkbox"] + label:before,
+input[type="radio"] + label:after,
+input[type="checkbox"] + label:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1em;
+  height: 1em;
+  text-align: center;
+  color: white;
+  font-family: Times;
+  border-radius: 50%;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+}
+input[type="radio"] + label:before {
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  box-shadow: inset 0 0 0 0.2em white, inset 0 0 0 1em white;
+}
+input[type="radio"] + label:hover:before {
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  box-shadow: inset 0 0 0 0.3em white, inset 0 0 0 1em #c6c6c6;
+}
+input[type="radio"]:checked + label:before {
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  box-shadow: inset 0 0 0 0.2em white, inset 0 0 0 1em #f79420;
+}
+input[type="checkbox"] + label:before {
+  content: '✗';
+  border-radius: 4px;
+  background-color: white;
+  color: white;
+}
+input[type="checkbox"] + label:hover:before {
+  color: #f0f0f0;
+}
+input[type="checkbox"]:checked + label:before {
+  background-color: white;
+  color: #f79420;
+}
+
+.bar {
+  height: 21px;
+  -webkit-transition: fill .3s ease;
+  transition: fill .3s ease;
+  cursor: pointer;
+}
+
+.bar-1 {
+    fill: #3E92CC;
+}
+
+.bar-2 {
+    fill: #ED6A5A;
+}
+
+.bar-3 {
+    fill: #2CA58D;
+}
+
+.bar-tot {
+    fill: #FFBC42;
+}
+
+.chart:hover .bar,
+.chart:focus .bar {
+  fill: #C44E4C;
+}
+
+.bar:hover,
+.bar:focus {
+  fill: #343A40 !important;
+}

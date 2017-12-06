@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>IDN Homograph Demo</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/../css/style.css" rel="stylesheet">
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-family: Proxima Nova;
+            font-size: 20px;
+            font-weight: 100;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {background-color:#f5f5f5;}
+
+        .add-margin-top {
+            margin-top: 40px;
+        }
+    </style>
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container navbar-text">
+        <a class="navbar-brand" href="/">IDN Homograph Detection</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto" style="text-align:right">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Search
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="demo">Demo DB
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <section id="search" style="background-color: #D65553">
+      <div class="container title-box">
+            <h1 class="title-text text-center">IDN Homograph Detection tool</h1>
+            <p class="lead content-text text-center">A project made for the class CS 411 at UIUC</p>
+            <div class="row search-container">
+              <div class="col-lg-2">
+              </div>
+              <div class="col-lg-8">
+              </div>
+              <div class="col-lg-2">
+              </div>
+            </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="row about-box">
+              <div class="col-lg-8 mx-auto add-margin-bottom">
+                    <form class="search-container" action="" method="post" id="demo-add">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="inputs">
+                                    <input name="create" type="text" class="search-bar-small" placeholder="Create Entry" >
+                                    <input name="number" type="text" class="search-bar-small" placeholder="Input Num" >
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="button" class="search-button-db" value="Create" onClick="addEntry()">
+                            </div>
+                        </div>
+                    </form>
+              </div>
+              <div class="col-lg-8 mx-auto add-margin-bottom">
+                <form class="search-container" action="/demo" method="put" id="demo-update">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="inputs">
+                                <div class="add-margin-bottom-small">
+                                    <input name="update-index" type="text" class="search-bar" id="update-index" placeholder="Update Entry">
+                                </div>
+                                <input name="update" type="text" class="search-bar-small" placeholder="Update Name">
+                                <input name="number" type="text" class="search-bar-small" placeholder="Update Num">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="button" class="search-button-db" value="Update" onClick=updateEntry(document.getElementById('update-index').value)>
+                        </div>
+                    </div>
+                </form>
+              </div>
+              <div class="col-lg-8 mx-auto">
+                <form class="search-container" action="/demo/" + id method="delete">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <input name="id" type="text" class="search-bar" id="delete-index" placeholder="Delete Entry">
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="button" class="search-button-db" value="Delete" onClick=deleteEntry(document.getElementById('delete-index').value)>
+                        </div>
+                    </div>
+                </form>
+              </div>
+            </div>
+      </div>
+    </section>
+    <section>
+        <div class="container add-margin-bottom">
+            <div class="row">
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-6">
+                    <div class="data-table">
+                        <table border="1" cellpadding="7" cellspacing="7">
+                            <tr>
+                                <th width="50px">No</th>
+                                <th>Name</th>
+                                <th>Number</th>
+                            </tr>
+                            <% if(data.length) {
+                            for(var i = 0; i < data.length; i++) { %>
+
+                                <tr>
+                                    <td><%=data[i].user_id%></td>
+                                    <td><%=data[i].name%></td>
+                                    <td><%=data[i].number%></td>
+                                </tr>
+                            <% }
+                        } else { %>
+                            <tr>
+                                <td colspan="3">No Data</td>
+                            </tr>
+                        <% } %>
+                    </table>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="text-center footer-links"><a href="https://wiki.illinois.edu/wiki/display/cs411fa17">CS 411 Course Website</a> <span style="color:white">&nbsp;&#8729; &nbsp;</span><a href="https://wiki.illinois.edu/wiki/display/~jcao7/Project+Database+2+-+The+SQL">Project Wiki</a></p>
+      </div>
+      <!-- /.container -->
+    </footer>
+    <script>
+        function addEntry() {
+            $.ajax({
+                url:"/api/demo",
+                type:"post",
+                data:$("#demo-add").serialize(),
+                success: function(res) {
+                    window.location.href = '/api/demo';
+                    return false;
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    var err = '';
+                    $.each(JSON.parse(xhr.navbarResponsive), function(i, item) {
+                        err += '<li>' + item.msg + '</li>';
+                    });
+                    return false;
+                }
+            });
+        }
+
+        function updateEntry(index) {
+            $.ajax({
+
+             url:"/api/demo/" + index ,
+             type:"put",
+             data:$("#demo-update").serialize(),
+             success:function(res){
+
+                 window.location.href = '/api/demo';
+                 return false;
+             },
+             error:function(xhr, status, error){
+
+                 console.log(xhr.responseText);
+                 var err = '';
+                 $.each(JSON.parse(xhr.responseText) , function(i, item) {
+
+                      err +='<li>'+item.msg+'</li>';
+                 });
+                 $(".err-area").html(err);
+                 return false;
+             }
+
+            });
+        }
+
+        function deleteEntry(index) {
+            $.ajax({
+                url:"/api/demo/" + index,
+                type: 'DELETE',
+                success: function(res) {
+                    window.location.reload();
+                    return false;
+                },
+                error:function(xhr, status, error){
+
+                    console.log(xhr.responseText);
+                    alert("Error deleting");
+                    return false;
+                }
+            });
+        }
+    </script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/../vendor/jquery/jquery.min.js"></script>
+    <script src="/../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+
+</html>

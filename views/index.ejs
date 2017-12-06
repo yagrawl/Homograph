@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>IDN Homograph Detector</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/../css/style.css" rel="stylesheet">
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-family: Proxima Nova;
+            font-size: 20px;
+            font-weight: 100;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {background-color:#f5f5f5;}
+
+        .add-margin-top {
+            margin-top: 40px;
+        }
+
+        .add-margin-top-small {
+            margin-top: 10px;
+        }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container navbar-text">
+        <a class="navbar-brand" href="/">IDN Homograph Detection</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto" style="text-align:right">
+            <li class="nav-item active">
+              <a class="nav-link" href="#search">Search
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="demo">Demo DB</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <section id="search" style="background-color: #D65553">
+      <div class="container title-box">
+            <h1 class="title-text text-center">IDN Homograph Detection tool</h1>
+            <p class="lead content-text text-center">A project made for the class CS 411 at UIUC</p>
+            <div class="row search-container">
+              <div class="col-lg-2">
+              </div>
+              <div class="col-lg-8">
+                  <form class="search-container" action="/" method="get" id="search-term">
+                      <input name="domain" type="text" class="search-bar" placeholder="Enter Domain Name" id="domain-name">
+                      <div class="add-margin-top-small" style="color:white; font-weight:100; font-size:14px">
+                          <p>Select number of characters to permute. </p>
+                          <div style="margin-top:-10px">
+                              <input type="radio" id="featured-1" name="one"><label for="featured-1">One</label>
+                              <input type="radio" id="featured-2" name="two"><label for="featured-2">Two</label>
+                              <input type="radio" id="featured-3" name="three"><label for="featured-3">Three</label>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-3">
+                          </div>
+                          <div class="col-lg-6">
+                              <input type="button" class="search-button" value="Get Homographs" onClick="getHomographs(document.getElementById('domain-name').value, document.getElementById('featured-1').checked, document.getElementById('featured-2').checked, document.getElementById('featured-3').checked)">
+                          </div>
+                          <div class="col-lg-3">
+                          </div>
+                      <div>
+                  </form>
+              </div>
+              <div class="col-lg-2">
+              </div>
+            </div>
+      </div>
+    </section>
+    <section>
+        <div class="container add-margin-top">
+            <div class="row">
+                <div class="col-lg-2">
+                </div>
+                <div class="col-lg-8">
+                    <%if (data.length) { %>
+                        <h3>Statistics</h3>
+                        <div class="row add-margin-top-small">
+                            <div class="col-lg-6">
+                                <p>One Permutation Count : <%= count['one'] %></p>
+                                <p>Two Permutation Count : <%= count['two'] %></p>
+                                <p>Three Permutation Count : <%= count['three'] %></p>
+                            </div>
+                            <div class="col-lg-6">
+                                <figure>
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="300" height="150" aria-labelledby="title" role="img">
+                                        <g class="bar bar-1">
+                                            <rect width="<%= count['one']*300/count['total'] %>" height="19"></rect>
+                                        </g>
+                                        <g class="bar bar-2">
+                                            <rect width="<%= count['two']*300/count['total'] %>" height="19" y="30"></rect>
+                                        </g>
+                                        <g class="bar bar-3">
+                                            <rect width="<%= count['three']*300/count['total'] %>" height="19" y="60"></rect>
+                                        </g>
+                                        <g class="bar bar-tot">
+                                            <rect width="300" height="19" y="90"></rect>
+                                        </g>
+                                    </svg>
+                                </figure>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <p><strong>Multi-letter homoglyphs</strong></p>
+                                <% if(multi.length){ %>
+                                    <% for(var i=0; i < multi.length; i++) { %>
+                                       <p style="font-size:20px"><%= multi[i][0]%> === <strong><%= multi[i][1]%></strong></p>
+                                    <% } %>
+                                <% } else{ %>
+                                    <p>No Multi-letter Homoglyphs found</p>
+                                <% } %>
+
+                            </div>
+                            <div class="col-lg-6">
+                                <p><strong>Problematic Fonts</strong></p>
+                                <% if(multi.length){ %>
+                                    <div style="font-size:20px">
+                                        <p>Tahoma</p>
+                                        <p>Segoe UI</p>
+                                    </div>
+                                <% } else{ %>
+                                    <p>-------</p>
+                                <% } %>
+                            </div>
+                        </div>
+                        <hr>
+                    <% } %>
+                    <table>
+                        <tr>
+                            <td><strong>ASCII</strong></td>
+                            <td><strong>Punycode</strong></td>
+                            <td><strong>Unicode</strong></td>
+                        </tr>
+                    <% if(data.length) {
+                            for(var i = 0; i < data.length; i++) { %>
+                                <tr>
+                                    <td><%= data[i]['ASCII'] %></td>
+                                    <td><%= data[i]['Punycode'] %></td>
+                                    <td><a href="<%= data[i]['link'] %>" target="_blank"><%= data[i]['Unicode'] %></a></td>
+                                </tr>
+                    <% }
+                    } else { %>
+                        <tr>
+                            <td colspan="3">Search for a domain</td>
+                        </tr>
+                    <% } %>
+                    </table>
+                </div>
+                <div class="col-lg-2">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="about">
+      <div class="container">
+        <div class="row about-box">
+              <div class="col-lg-8 mx-auto">
+                <h2>What is this project about?</h2>
+                <p class="about-text">IDN homograph attack relies on similarity of some characters (e.g., 'i' and 'l', 'cl' and 'd', etc. and especially Unicode Punycode with Cyrilic character support, e.g. 'e' and 'е', 'a' and 'а', 'p' and 'р' and many Greek characters) that allows an attacker to officially register a fake domain name visually similar or entirely indistinguishable from the original one. This kind of attack was known since 2001, got plenty of press (e.g., but many registrars still do not have robust protections against it and some applications (e.g., Apple iCloud Mail due to internationalized email addresses support, according to my light testing) do not have any protections at all. We would like to address this issue by creating a service that would find all the potential homograph attacks (registered domains) and the "whois"-like details about each of them. Service would be updated daily following the update of the IDN files and ideally would report (to us or service subscribers) the potential attacks among the newly registered domains.
+                </p>
+              </div>
+            </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="text-center footer-links"><a href="https://wiki.illinois.edu/wiki/display/cs411fa17">CS 411 Course Website</a> <span style="color:white">&nbsp;&#8729; &nbsp;</span><a href="https://wiki.illinois.edu/wiki/display/~jcao7/Project+Database+2+-+The+SQL">Project Wiki</a></p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <script>
+        function getHomographs(domain, one, two, three) {
+            var radio;
+            if(one) radio = 1;
+            if(two) radio = 2;
+            if(three) radio = 3;
+            else radio = 1;
+            var settings = {
+              "async": true,
+              "crossDomain": true,
+              "method": "GET",
+              "headers": {},
+              "data": $("#search-term").serialize(),
+            }
+            $.ajax(settings).done(function (res) {
+                window.location.href = 'api/search/'+domain + '/'+radio;
+                return false;
+            });
+        }
+    </script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/../vendor/jquery/jquery.min.js"></script>
+    <script src="/../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+
+</html>

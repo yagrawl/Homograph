@@ -1,0 +1,21 @@
+{
+  "name": "idn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yash Agrawal",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "express-myconnection": "^1.0.4",
+    "mysql": "^2.15.0",
+    "path": "^0.12.7",
+    "punycode": "^2.1.0",
+    "request": "^2.83.0"
+  }
+}
